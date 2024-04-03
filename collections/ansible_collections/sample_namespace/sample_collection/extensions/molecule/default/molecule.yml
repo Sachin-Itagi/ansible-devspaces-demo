@@ -11,7 +11,7 @@ driver:
       connection: local
 platforms:
   - name: molecule-ubi8-init-1
-    image: registry.access.redhat.com/ubi8/ubi-init@sha256:75cb1eb60b9636f8daa584c231db552c1de94006778e7224643804a696f04fad
+    image: registry.access.redhat.com/ubi8/ubi-init@sha256:d35aff7118921a3a2c2e78507fc7329b499b8fb09d290dc60a44eea6cdeb9b5c
     workingDir: '/tmp'
 provisioner:
   name: ansible
