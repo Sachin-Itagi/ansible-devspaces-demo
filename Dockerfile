@@ -14,7 +14,9 @@ RUN microdnf install -y go
 RUN \
     microdnf install -y which && \
     microdnf clean all && \
-    curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl && \
+    ARCH=`uname -m` && \
+    if [ $ARCH = "x86_64" ]; then curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl; \
+    else curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/$ARCH/kubectl; fi && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin && \
     kubectl version --client
@@ -24,7 +26,9 @@ RUN \
     TEMP_DIR="$(mktemp -d)" && \
     cd "${TEMP_DIR}" && \
     HELM_VERSION="3.7.0" && \
-    HELM_ARCH="linux-amd64" && \
+    ARCH=`uname -m` && \
+    if [ $ARCH = "x86_64" ]; then HELM_ARCH="linux-amd64"; \
+    else HELM_ARCH="linux-$ARCH"; fi && \
     HELM_TGZ="helm-v${HELM_VERSION}-${HELM_ARCH}.tar.gz" && \
     HELM_TGZ_URL="https://get.helm.sh/${HELM_TGZ}" && \
     curl -sSLO "${HELM_TGZ_URL}" && \
